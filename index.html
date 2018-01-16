@@ -1,19 +1,128 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <title>Hello World!</title>
-  </head>
-  <body>
-    <h1>Hello World!</h1>
-    <!-- All of the Node.js APIs are available in this renderer process. -->
-    We are using Node.js <script>document.write(process.versions.node)</script>,
-    Chromium <script>document.write(process.versions.chrome)</script>,
-    and Electron <script>document.write(process.versions.electron)</script>.
+<head>
+  <meta charset="UTF-8">
+  <title>Hello World!</title>
+  <style>
+html, body {
+  background-color: #111;
+  height: 100%;
+}
 
-    <script>
-      // You can also require other files to run in this process
-      require('./renderer.js')
-    </script>
-  </body>
+.timer-num {
+  background-image: url(./assets/bg.png);
+  background-size: cover;
+  width: 440px;
+  height: 100px;
+}
+span.num-item {
+  display: block;
+  float: left;
+  width: 50px;
+  height: 100px;
+  background: url(./assets/cound_num.png) no-repeat left bottom;
+  background-size: 100% auto;
+  opacity: 1;
+}
+span.num-item.n0 {
+  background-position: left 0%;
+}
+  span.num-item.n1 {
+  background-position: left 11.1111111111%;
+}
+  span.num-item.n2 {
+  background-position: left 22.2222222222%;
+}
+  span.num-item.n3 {
+  background-position: left 33.3333333333%;
+}
+  span.num-item.n4 {
+  background-position: left 44.4444444444%;
+}
+  span.num-item.n5 {
+  background-position: left 55.5555555556%;
+}
+  span.num-item.n6 {
+  background-position: left 66.6666666667%;
+}
+  span.num-item.n7 {
+  background-position: left 77.7777777778%;
+}
+  span.num-item.n8 {
+  background-position: left 88.8888888889%;
+}
+
+  span.num-item:nth-child(3), span.num-item:nth-child(5) {
+  margin-left: 30px;
+}
+  span.num-item:nth-child(6) {
+  margin-right: 10px;
+}
+  span.num-item:nth-child(7), span.num-item:nth-child(8) {
+  width: 35px;
+  height: 70px;
+}
+.text {
+    font-family: 'Franklin Gothic Medium';
+    color: #fff;
+    font-size: 30pt;
+  
+}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="row ">
+      <div class="text">LANE 1</div>
+    </div>
+    <div class="row ">
+      <div class="timer-num">
+        <span class="num-item" [ngClass]="'n' + track1[0]"></span>
+        <span class="num-item" [ngClass]="'n' + track1[1]"></span>
+        <span class="num-item" [ngClass]="'n' + track1[2]"></span>
+        <span class="num-item" [ngClass]="'n' + track1[3]"></span>
+        <span class="num-item" [ngClass]="'n' + track1[4]"></span>
+        <span class="num-item" [ngClass]="'n' + track1[5]"></span>
+        <span class="num-item" [ngClass]="'n' + track1[6]"></span>
+        <span class="num-item" [ngClass]="'n' + track1[7]"></span>
+      </div>
+    </div>
+    <div class="row ">
+      <div class="text">LANE 2</div>
+    </div>
+    <div class="row ">
+      <div class="timer-num">
+        <span class="num-item" [ngClass]="'n' + track2[0]"></span>
+        <span class="num-item" [ngClass]="'n' + track2[1]"></span>
+        <span class="num-item" [ngClass]="'n' + track2[2]"></span>
+        <span class="num-item" [ngClass]="'n' + track2[3]"></span>
+        <span class="num-item" [ngClass]="'n' + track2[4]"></span>
+        <span class="num-item" [ngClass]="'n' + track2[5]"></span>
+        <span class="num-item" [ngClass]="'n' + track2[6]"></span>
+        <span class="num-item" [ngClass]="'n' + track2[7]"></span>
+      </div>
+    </div>
+    <div class="row ">
+      <div class="text">BEST</div>
+    </div>
+    <div class="row ">
+      <div class="timer-num">
+        <span class="num-item" [ngClass]="'n' + track2[0]"></span>
+        <span class="num-item" [ngClass]="'n' + track2[1]"></span>
+        <span class="num-item" [ngClass]="'n' + track2[2]"></span>
+        <span class="num-item" [ngClass]="'n' + track2[3]"></span>
+        <span class="num-item" [ngClass]="'n' + track2[4]"></span>
+        <span class="num-item" [ngClass]="'n' + track2[5]"></span>
+        <span class="num-item" [ngClass]="'n' + track2[6]"></span>
+        <span class="num-item" [ngClass]="'n' + track2[7]"></span>
+      </div>
+    </div>
+  </div>
+  <!-- <div id="error"></div>
+  <div id="ports"></div> -->
+  <script>
+    // You can also require other files to run in this process
+    require('./renderer.js')
+  </script>
+</body>
 </html>
