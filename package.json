@@ -1,11 +1,20 @@
 {
-  "name": "electron-quick-start",
+  "name": "derby-score-board",
   "version": "1.0.0",
   "description": "A minimal Electron application",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "install": "electron-rebuild"
+    "install": "electron-rebuild",
+    "pack": "build --dir",
+    "dist": "build"
+  },
+  "build": {
+    "appId": "com.benjaminjanderson.app",
+    "win": {
+      "target": "NSIS",
+      "icon": "assets/favicon.ico"
+    }
   },
   "repository": "https://github.com/electron/electron-quick-start",
   "keywords": [
@@ -19,6 +28,7 @@
   "license": "CC0-1.0",
   "devDependencies": {
     "electron": "~1.7.8",
+    "electron-builder": "^19.54.0",
     "electron-rebuild": "^1.7.3"
   },
   "dependencies": {
