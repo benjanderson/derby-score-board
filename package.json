@@ -22,7 +22,7 @@
     "electron-rebuild": "^1.7.3"
   },
   "dependencies": {
-    "data-table": "^2.0.0",
-    "serialport": "^6.0.4"
+    "serialport": "^6.0.4",
+    "timespan": "^2.3.0"
   }
 }

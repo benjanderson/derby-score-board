@@ -1,33 +1,66 @@
-// This file is required by the index.html file and will
-// be executed in the renderer process for that window.
-// All of the Node.js APIs are available in this process.
-
 const serialport = require('serialport')
-const createTable = require('data-table')
+const timespan = require('timespan');
 
-// serialport.list((err, ports) => {
-//   console.log('ports', ports);
-//   if (err) {
-//     document.getElementById('error').textContent = err.message
-//     return
-//   } else {
-//     document.getElementById('error').textContent = ''
-//   }
+function timerNum(id) {
+    var _this = this;
+    var element = document.getElementById(id);
+    var numbers = element.getElementsByClassName('num-item');
+    var start;
+    var tick;
 
-//   if (ports.length === 0) {
-//     document.getElementById('error').textContent = 'No ports discovered'
-//   }
+    var addClass = function(numItemElement, numberString, position) {
+        if (numItemElement.classList.length >= 2) {
+            numItemElement.classList.remove(numItemElement.classList[1]);
+        }
 
-//   const headers = Object.keys(ports[0])
-//   const table = createTable(headers)
-//   tableHTML = ''
-//   table.on('data', data => tableHTML += data)
-//   table.on('end', () => document.getElementById('ports').innerHTML = tableHTML)
-//   ports.forEach(port => table.write(port))
-//   table.end();
-// })
+        if (numberString.length >= 2) {
+            numItemElement.classList.add("n" + numberString[position === 0 ? 1 : 0]);
+        } else if (numberString.length == 1 && position == 0) {
+            numItemElement.classList.add("n" + numberString[0]);
+        } 
+        else {
+            numItemElement.classList.add("n0");
+        }
+    };
 
-serialport.list((err, ports) => {
+    _this.updateTime = function(seconds) {
+        var wholeSeconds = Math.floor(seconds);
+        
+        var decimal = ((seconds % 1) * 100).toString();
+        var hours = Math.floor(seconds / 3600).toString();
+        var minutes = Math.floor(seconds / 60).toString();
+        var seconds = Math.floor(seconds % 60).toString();
+
+        addClass(numbers[0], hours, 1);
+        addClass(numbers[1], hours, 0);
+        addClass(numbers[2], minutes, 1);
+        addClass(numbers[3], minutes, 0);
+        addClass(numbers[4], seconds, 1);
+        addClass(numbers[5], seconds, 0);
+        addClass(numbers[6], decimal, 1);
+        addClass(numbers[7], decimal, 0);
+    };  
+
+    _this.start = function() {
+        start = new Date();
+        tick = setInterval(function() {
+            var ts = timespan.fromDates(start, new Date());
+            var seconds = ts.totalSeconds();
+            console.log(seconds);
+            _this.updateTime(seconds);
+        }, 1);
+    };
+
+    _this.stop = function() {
+        clearInterval(tick);
+    };
+}
+
+const lane1 = new timerNum('lane1');
+const lane2 = new timerNum('lane2');
+const best = new timerNum('best');
+
+serialport.list(function(err, ports) {
     console.log(ports);
     var port = new serialport(ports[1].comName, {
         baudRate:9600,
@@ -35,27 +68,40 @@ serialport.list((err, ports) => {
         parity: 'none',
         stopBits: 1,
         flowControl: false,
-        // parser: serialport.parsers.readline("\n"),
     });
 
-    port.on('open', () => {
+    window.addEventListener('unload', function(event) {
+        port.close();
+    });
+
+    port.on('open', function () {
+        const regex = /^(\d\W-\W)((?:\d|\.)+)/m;
         console.log('Port Opened', port);
 
-        port.on('data', (data) => {
-            /* get a buffer of data from the serial port */
-            console.log(data.toString());
+        port.on('data', function(data) {
+            var dataString = data.toString();
+            console.log(dataString);
+            if (dataString.length > 0 && dataString[0] === 'B') {
+                console.log("started");
+                lane1.start();
+                lane2.start();
+            } else {
+                const match = regex.exec(dataString);
+                if (match !== null && match.length >= 3) {
+                    lane1.stop();
+                    lane2.stop();
+                    const seconds = parseFloat(match[2]);
+                    if (match[1] == "1 - ") {
+                        lane1.updateTime(seconds);
+                    } else if (match[1] == "2 - ") {
+                        lane2.updateTime(seconds);
+                    }
+                }
+            } 
         });
     });
 
     port.on('error', function(err) {
         console.log('Error: ', err.message);
     })
-
-    // port.write('main screen turn on', (err) => {
-    //     if (err) { return console.log('Error: ', err.message) }
-    //     console.log('message written');
-    // });
-
-    
 });
-
