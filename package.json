@@ -1,7 +1,7 @@
 {
   "name": "derby-score-board",
   "version": "1.0.0",
-  "description": "A minimal Electron application",
+  "description": "A score board for an arduino based pinewood derby timer",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
@@ -18,11 +18,16 @@
   },
   "repository": "https://github.com/electron/electron-quick-start",
   "keywords": [
-    "Electron",
-    "quick",
-    "start",
-    "tutorial",
-    "demo"
+    "pine",
+    "wood",
+    "derby",
+    "score",
+    "board",
+    "timer",
+    "arduino",
+    "electron",
+    "serial",
+    "port"
   ],
   "author": "GitHub",
   "license": "CC0-1.0",
