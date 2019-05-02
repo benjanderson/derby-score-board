@@ -1,6 +1,6 @@
 # Derby Score Board
 
-Simple electron app built to support arduino derby timer http://www.miscjunk.org/mj/pg_pdt.html
+Simple electron app built to support arduino derby timer https://www.dfgtec.com/pdt
 
 ![](https://i.imgur.com/QH0jBL5.png)
 
